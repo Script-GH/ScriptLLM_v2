@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Large artifacts: datasets, token files, checkpoints, run logs
+data/
+runs/
+*.bin
+*.pt
+*.pth

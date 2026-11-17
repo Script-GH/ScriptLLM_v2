@@ -1,0 +1,33 @@
+[project]
+name = "llm-v2"
+version = "0.1.0"
+description = "A small GPT-style decoder-only language model, built from the ground up for learning."
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "torch>=2.9",
+    "numpy>=2.0",
+    "regex>=2024.0",   # Unicode character classes (\p{L}, \p{N}) for BPE pre-tokenization
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "tiktoken>=0.9",   # reference only: V1 baseline + tokenizer comparison tests
+]
+
+[tool.uv]
+package = false
+
+# CUDA build of PyTorch (RTX 3050, sm_86). The driver supports CUDA 13.x, so cu128 wheels run fine.
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = ["gpu: requires a CUDA device"]
